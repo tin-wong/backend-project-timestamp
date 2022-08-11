@@ -30,15 +30,15 @@ app.get("/api/:timestamp?", (req, res) => {
   let utcTime = req.params.timestamp;
   let timeInput = req.params.timestamp;
 
-  console.log(Number.isInteger(Number(timeInput)))
-  console.log(Number.isInteger(timeInput))
   console.log(req.params.timestamp)
-  console.log(new Date(Number(timeInput)))
+  console.log(new Date(timeInput))
 
-  if(Number.isInteger(Number(timeInput)) && new Date(Number(timeInput) !== "Invalid Date")){
+  if(Number.isInteger(Number(timeInput)) && new Date(timeInput) != "Invalid Date"){
     res.json({unix: Date.parse(new Date(Number(timeInput))), "utc": new Date(Number(timeInput)).toUTCString()});
   } else if(timeInput === undefined) {
-    res.json({unix: Date.parse(new Date()), "utc": new Date().toUTCString()})
+    res.json({unix: Date.parse(new Date()), "utc": new Date().toUTCString()});
+  } else if(new Date(timeInput) != "Invalid Date") {
+    res.json({unix: Date.parse(new Date(timeInput)), "utc": new Date(timeInput).toUTCString()})
   } else {
     res.json({error : "Invalid Date"});
   }
