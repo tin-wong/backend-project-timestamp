@@ -19,13 +19,30 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+//
+app.get("/api/:timestamp?", (req, res) => {
+  let unixTime = req.params.timestamp;
+  let utcTime = req.params.timestamp;
+  let timeInput = req.params.timestamp;
 
+  console.log(Number.isInteger(Number(timeInput)))
+  console.log(Number.isInteger(timeInput))
+  console.log(req.params.timestamp)
+  console.log(new Date(Number(timeInput)))
+
+  if(Number.isInteger(Number(timeInput)) && new Date(Number(timeInput) !== "Invalid Date")){
+    res.json({unix: Date.parse(new Date(Number(timeInput))), "utc": new Date(Number(timeInput)).toUTCString()});
+  } else if(timeInput === undefined) {
+    res.json({unix: Date.parse(new Date()), "utc": new Date().toUTCString()})
+  } else {
+    res.json({error : "Invalid Date"});
+  }
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
