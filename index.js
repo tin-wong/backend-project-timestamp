@@ -33,7 +33,7 @@ app.get("/api/:timestamp?", (req, res) => {
   console.log(req.params.timestamp)
   console.log(new Date(timeInput))
 
-  if(Number.isInteger(Number(timeInput)) && new Date(timeInput) != "Invalid Date"){
+  if(Number.isInteger(Number(timeInput)) && new Date(Number(timeInput)) != "Invalid Date"){
     res.json({unix: Date.parse(new Date(Number(timeInput))), "utc": new Date(Number(timeInput)).toUTCString()});
   } else if(timeInput === undefined) {
     res.json({unix: Date.parse(new Date()), "utc": new Date().toUTCString()});
