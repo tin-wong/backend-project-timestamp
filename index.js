@@ -24,17 +24,14 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-//
+// Timestamp Microservice
 app.get("/api/:timestamp?", (req, res) => {
-  let unixTime = req.params.timestamp;
-  let utcTime = req.params.timestamp;
   let timeInput = req.params.timestamp;
+  let timeInputToDate = new Date(Number(timeInput));
 
-  console.log(req.params.timestamp)
-  console.log(new Date(timeInput))
-
-  if(Number.isInteger(Number(timeInput)) && new Date(Number(timeInput)) != "Invalid Date"){
-    res.json({unix: Date.parse(new Date(Number(timeInput))), "utc": new Date(Number(timeInput)).toUTCString()});
+  if(Number.isInteger(Number(timeInput)) && timeInputToDate != "Invalid Date"){
+    res.json({unix: Date.parse(timeInputToDate), "utc": timeInputToDate.toUTCString()});
+    // An empty date parameter returns the current time
   } else if(timeInput === undefined) {
     res.json({unix: Date.parse(new Date()), "utc": new Date().toUTCString()});
   } else if(new Date(timeInput) != "Invalid Date") {
