@@ -26,16 +26,21 @@ app.get("/api/hello", function (req, res) {
 
 // Timestamp Microservice
 app.get("/api/:timestamp?", (req, res) => {
+  // Assign the timestamp route parameter to the timeInput variable
   let timeInput = req.params.timestamp;
+  // Convert timeInput to a Date object 
   let timeInputToDate = new Date(Number(timeInput));
 
+  // If timeInput is a number and timeInputToDate is not invalid, convert it into unix and utc times and output as JSON.
   if(Number.isInteger(Number(timeInput)) && timeInputToDate != "Invalid Date"){
     res.json({unix: Date.parse(timeInputToDate), "utc": timeInputToDate.toUTCString()});
-    // An empty date parameter returns the current time
+    // An empty date parameter returns the current time.
   } else if(timeInput === undefined) {
     res.json({unix: Date.parse(new Date()), "utc": new Date().toUTCString()});
+    // If the timeInput is not an invalid date, convert it into unix and utc times and output as JSON.
   } else if(new Date(timeInput) != "Invalid Date") {
     res.json({unix: Date.parse(new Date(timeInput)), "utc": new Date(timeInput).toUTCString()})
+    // Returns an error if the above conditions can't be met.  
   } else {
     res.json({error : "Invalid Date"});
   }
